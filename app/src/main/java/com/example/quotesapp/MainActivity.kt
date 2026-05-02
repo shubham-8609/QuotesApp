@@ -11,6 +11,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.modifier.ModifierLocalConsumer
@@ -29,11 +31,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val view = LocalView.current
-
-
             LaunchedEffect(Unit) {
-                    DataManager.loadAssetsFromFile(applicationContext)
+                DataManager.loadAssetsFromFile(applicationContext)
             }
             App()
 
@@ -45,29 +44,35 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun App() {
-    if (DataManager.isDataLoaded.value) {
-        if(DataManager.currentPage.value == Pages.LISTING){
-            QuoteListScreen(data = DataManager.data) {
-                DataManager.switchPages(it)
-            }
-        }else DataManager.currentQuote?.let { QuoteDetail(it) }
+    val isDark = remember { mutableStateOf(false) }
 
-    } else {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            Text(
-                text = "Loading...",
-                style = MaterialTheme.typography.bodyLarge
-            )
+    QuotesAppTheme(isDark.value) {
+
+        if (DataManager.isDataLoaded.value) {
+            if (DataManager.currentPage.value == Pages.LISTING) {
+                QuoteListScreen(data = DataManager.data, onclick = {
+                    DataManager.switchPages(it)
+                }) {
+                    isDark.value = !isDark.value
+                }
+            } else DataManager.currentQuote?.let { QuoteDetail(it) }
+
+        } else {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Text(
+                    text = "Loading...",
+                    style = MaterialTheme.typography.bodyLarge
+                )
+            }
         }
     }
 }
 
 
-
-enum class Pages{
-    LISTING ,
+enum class Pages {
+    LISTING,
     DETAIL
 }
