@@ -26,9 +26,7 @@ fun QuoteListScreen(data: ArrayList<Quote> , onclick : (quote:Quote) -> Unit){
                 .fillMaxWidth(),
             style = MaterialTheme.typography.headlineLarge
         )
-        QuoteList(data = data){
-            onclick(it)
-        }
+        QuoteList(data = data , onclick)
     }
 
 

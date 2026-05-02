@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.modifier.ModifierLocalConsumer
 import androidx.compose.ui.platform.LocalView
+import com.example.quotesapp.Screens.QuoteDetail
 import com.example.quotesapp.Screens.QuoteListScreen
 import com.example.quotesapp.models.Quote
 import com.example.quotesapp.ui.theme.DataManager
@@ -45,9 +46,12 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun App() {
     if (DataManager.isDataLoaded.value) {
-        QuoteListScreen(data = DataManager.data) {
-            manageOnClick(it)
-        }
+        if(DataManager.currentPage.value == Pages.LISTING){
+            QuoteListScreen(data = DataManager.data) {
+                DataManager.switchPages(it)
+            }
+        }else DataManager.currentQuote?.let { QuoteDetail(it) }
+
     } else {
         Box(
             contentAlignment = Alignment.Center,
@@ -61,8 +65,9 @@ fun App() {
     }
 }
 
-fun manageOnClick(quote: Quote) {
 
+
+enum class Pages{
+    LISTING ,
+    DETAIL
 }
-
-
