@@ -28,6 +28,11 @@ object DataManager {
         return data
     }
 
+    fun shuffleData(){
+        data.shuffle()
+        isDataLoaded.value = true
+    }
+
     fun switchPages(quote: Quote?){
         currentQuote = quote
         if(currentPage.value == Pages.LISTING) currentPage.value = Pages.DETAIL

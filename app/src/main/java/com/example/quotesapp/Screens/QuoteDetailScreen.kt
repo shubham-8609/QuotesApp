@@ -26,13 +26,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.quotesapp.models.Quote
+import com.example.quotesapp.ui.theme.Bluish
 import com.example.quotesapp.ui.theme.DataManager
 
 @Composable
@@ -73,11 +77,22 @@ fun QuoteDetail(quote: Quote) {
 
                 SelectionContainer() {
                     Text(
-                        text = quote.text,
+                        text = buildAnnotatedString {
+                            withStyle(style = SpanStyle(
+                                brush = Brush.linearGradient(listOf(MaterialTheme.colorScheme.primary ,
+                                    Bluish,
+                                    MaterialTheme.colorScheme.secondary))
+                            )){
+                                append(quote.text)
+                            }
+                        },
                         fontFamily = FontFamily.Serif,
                         style = MaterialTheme.typography.bodyLarge,
                         fontWeight = FontWeight.Bold
                     )
+
+
+
                 }
 
                 Spacer(Modifier.height(15.dp))
