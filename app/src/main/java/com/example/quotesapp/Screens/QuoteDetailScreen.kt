@@ -20,12 +20,14 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.tooling.LocalInspectionTables
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,7 +48,7 @@ fun QuoteDetail(quote: Quote) {
         modifier = Modifier
             .fillMaxSize()
             .background(
-                brush = Brush.sweepGradient(listOf(Color(0xFFffffff), Color(0xFFE3E3E3)))
+                brush = Brush.sweepGradient(listOf(MaterialTheme.colorScheme.background, MaterialTheme.colorScheme.secondary))
             )
 
     ) {
@@ -82,8 +84,9 @@ fun QuoteDetail(quote: Quote) {
 
                 SelectionContainer() {
                     Text(
-                        text = quote.author,
+                        text =  "-- ${quote.author} ",
                         fontFamily = FontFamily.SansSerif,
+                        fontStyle = FontStyle.Italic,
                         style = MaterialTheme.typography.bodySmall,
 
                         )

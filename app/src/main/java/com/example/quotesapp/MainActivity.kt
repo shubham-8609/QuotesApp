@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -50,12 +52,19 @@ fun App() {
 
         if (DataManager.isDataLoaded.value) {
             if (DataManager.currentPage.value == Pages.LISTING) {
-                QuoteListScreen(data = DataManager.data, onclick = {
-                    DataManager.switchPages(it)
-                }) {
-                    isDark.value = !isDark.value
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MaterialTheme.colorScheme.background),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    QuoteListScreen(data = DataManager.data, onclick = {
+                        DataManager.switchPages(it)
+                    }, isDark.value) {
+                        isDark.value = !isDark.value
+                    }
                 }
-            } else DataManager.currentQuote?.let { QuoteDetail(it) }
+                } else DataManager.currentQuote?.let { QuoteDetail(it) }
 
         } else {
             Box(
